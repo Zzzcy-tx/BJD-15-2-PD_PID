@@ -117,7 +117,7 @@ void renew(void)
   PIDRegulation1(&pidS, k); //方向环计算(加陀螺仪积分)
   pidS.result += G_S * gyro;
   // Ring_control();
-  obstacle_control();
+  // obstacle_control();
   diffSpeedSet(); //差速设置（输入量为pidS.result和pidL.result）
   // control();      //赛道元素控制
   //          angle += gyro * 0.01;
