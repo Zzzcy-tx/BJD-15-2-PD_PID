@@ -129,10 +129,10 @@ void renew(void)
   {
     sp_set = 0;
   }
-  if (pidL.setpoint < -900)
-    pidL.setpoint = -900;
-  if (pidR.setpoint < -900)
-    pidR.setpoint = -900;
+  if (pidL.setpoint < -1000)
+    pidL.setpoint = -1000;
+  if (pidR.setpoint < -1000)
+    pidR.setpoint = -1000;
   if (pidL.setpoint > 1500)
     pidL.setpoint = 1500;
   if (pidR.setpoint > 1500)
