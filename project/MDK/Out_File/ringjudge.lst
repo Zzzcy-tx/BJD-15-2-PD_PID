@@ -1,0 +1,335 @@
+C251 COMPILER V5.60.0,  ringjudge                                                          11/07/23  17:03:02  PAGE 1   
+
+
+C251 COMPILER V5.60.0, COMPILATION OF MODULE ringjudge
+OBJECT MODULE PLACED IN .\Out_File\ringjudge.obj
+COMPILER INVOKED BY: D:\software\keil\C251\BIN\C251.EXE ..\CODE\ringjudge.c LARGE INTR2 WARNINGLEVEL(3) OPTIMIZE(0,SPEED
+                    -) BROWSE INCDIR(..\..\Libraries\libraries;..\..\Libraries\seekfree_libraries;..\..\Libraries\seekfree_peripheral;..\CODE
+                    -;..\USER\inc;..\USER\src) DEBUG PRINT(.\Out_File\ringjudge.lst) TABS(2) OBJECT(.\Out_File\ringjudge.obj) 
+
+stmt  level    source
+
+    1          #include "ringjudge.h"
+    2          #include "math.h"
+    3          
+    4          uint8 Ring_forecast = 0;
+    5          int8 annulus_flag = 0;
+    6          uint8 last_annulus_flag = 0;
+    7          uint8 annulus_flag_k_index = 0;
+    8          
+    9          uint8 Ring_in = 0;
+   10          uint8 Ring_running = 0;
+   11          uint8 Ring_out = 0;
+   12          uint8 Left_Annulus = 0;
+   13          uint8 Ring_finish = 0;
+   14          uint8 first_flag = 0;
+   15          uint8 straight_flag = 0;
+   16          uint16 gyro_x_count = 0;
+   17          
+   18          int8 many_ring = 0;
+   19          
+   20          uint8 angle_integral_flag1 = 0;
+   21          uint8 distance_integral_flag1 = 0; //Â·³Ì»ý·Ö±êÖ¾Î»
+   22          uint8 distance_integral_flag2 = 0; //Â·³Ì»ý·Ö±êÖ¾Î»
+   23          
+   24          uint8 if_first_dis1 = 0;
+   25          int16 k_add = 0; // kÖµÀÛ¼Ó
+   26          
+   27          float angle1 = 0;
+   28          int16 distance1 = 0;
+   29          int16 distance2 = 0;
+   30          
+   31          uint16 tof_count = 0;   //¼ÇÂ¼Ê®´ÎÖÐ²É¼¯µ½TOF¶ÁÊýÐ¡ÓÚ320µÄ´ÎÊý
+   32          uint8 tof_count_flag = 0; //¼ì²âµ½ÕÏ°­ÎïµÄ´ÎÊý
+   33          uint8 dodge_flag = 0;   //±ÜÕÏ±êÖ¾Î»
+   34          
+   35          void Ring_control(void)
+   36          {
+   37   1        last_annulus_flag = annulus_flag;
+   38   1      
+   39   1        //±àÂëÆ÷»ý·Ö
+   40   1        if (distance_integral_flag1)
+   41   1        {
+   42   2          distance1 += (abs(speedL) + abs(speedR)) / 2;
+   43   2        }
+   44   1      
+   45   1        if (angle_integral_flag1)
+   46   1        {
+   47   2          angle1 += gyro * 0.01;
+   48   2        }
+   49   1      
+   50   1        if (annulus_flag > 0)
+   51   1        {
+   52   2          P77 = 1;
+   53   2          setSpeedLR(sp_set / 1.8);
+   54   2        }
+   55   1        else
+   56   1        {
+   57   2          P77 = 0;
+C251 COMPILER V5.60.0,  ringjudge                                                          11/07/23  17:03:02  PAGE 2   
+
+   58   2        }
+   59   1      
+   60   1        Ring_forecast = 1;
+   61   1      
+   62   1        //----------Ô²»·Èë----------//
+   63   1        if (adc_data[7] > 600 && annulus_flag == 0 && adc_data[1] < 350 && adc_data[3] < 350)
+   64   1        {
+   65   2          Ring_in = 1;    //Ô²»·½øÈë±êÖ¾Î»
+   66   2          annulus_flag = 1; //´ò¿ª±êÖ¾Î»1
+   67   2          distance1 = 0;    //¾àÀë»ý·Ö
+   68   2          distance_integral_flag1 = 1;
+   69   2          k_add = 0;
+   70   2          angle_integral_flag1 = 1; //Æô¶¯ÍÓÂÝÒÇ»ý·Ö
+   71   2        }
+   72   1      
+   73   1        if (annulus_flag == 1 && annulus_flag != 0)
+   74   1        {
+   75   2          if (distance1 < dis1 && annulus_flag != 0)
+   76   2          {
+   77   3            if (adc_data[1] < adc_data[3])
+   78   3            {
+   79   4              k_add += 1;
+   80   4            }
+   81   3            else
+   82   3            {
+   83   4              k_add -= 1;
+   84   4            }
+   85   3          }
+   86   2      
+   87   2          if (distance1 > dis1 && distance1 < dis2 && annulus_flag != 0 /*&&Annulus_Distance>500*/) //¿ØÖÆ¹Ì¶¨´ò½
+             -ÇµÄÊ±¼ä50---100   ·Ç³£ÖØÒª£¡£¡£¡£¡£¡£¡£¡£¡£¡£¡£¡£¡
+   88   2          {
+   89   3            if (first_flag == 0) //ÅÐ¶Ï»·Ïò
+   90   3            {
+   91   4              if (adc_data[1] < adc_data[3])
+   92   4              {
+   93   5                Left_Annulus = 1;
+   94   5              }
+   95   4              first_flag = 1;
+   96   4            }
+   97   3      
+   98   3            //Èç¹û¿ÉÒÔÊ¶±ðµ½Ô²»·£¬µ«ÊÇ½ø²»ÁËµÄ»°ÐÞ¸ÄÏÂÃæÕâÀï´ò½Ç·ù¶È»òÕßÐÞ¸ÄÉÏÃæµÄÊ±¼ä
+   99   3            if (Left_Annulus == 1) //×ó»·Èë
+  100   3            {
+  101   4              // adc_data[0] = adc_data[3]+80;
+  102   4              // k=-40;
+  103   4              // if (adc_data[2] > 500)
+  104   4              // {
+  105   4              k = -ring_set_k[annulus_flag_k_index];
+  106   4              // }
+  107   4      
+  108   4              // pidR.setpoint *= 1.8;
+  109   4              //  pwm_duty(PWB_CH1_P74,angle_max);  //Ç¿ÐÐÏò×ó´ò½Ç£¨ÓÒµç»ú¼ÓËÙ£©
+  110   4            }
+  111   3            else if (!Left_Annulus) //ÓÒ»·Èë
+  112   3            {
+  113   4              // if (adc_data[2] > 500)
+  114   4              // {
+  115   4              k = ring_set_k[annulus_flag_k_index];
+  116   4              // }
+  117   4              // pidS.result = 2000;
+  118   4              // pidL.setpoint *= 1.8;
+  119   4              //  adc_data[3] = adc_data[0]+80;
+  120   4              //  pwm_duty(PWMB_CH1_P74,640); //Ç¿ÐÐÏòÓÒ´ò½Ç£¨×óµç»ú¼ÓËÙ£©
+  121   4            }
+  122   3          }
+C251 COMPILER V5.60.0,  ringjudge                                                          11/07/23  17:03:02  PAGE 3   
+
+  123   2          else if (distance1 >= dis2 && annulus_flag != 0) //¹Õ½øÈ¥ºóÕý³£Ñ­¼£
+  124   2          {
+  125   3            if_first_dis1 = 0;
+  126   3            annulus_flag = 2;
+  127   3            distance1 = 0;
+  128   3            distance_integral_flag1 = 1;
+  129   3            k_add = 0;
+  130   3          }
+  131   2        }
+  132   1        // else if (annulus_flag == 2)
+  133   1        // {
+  134   1        //  if (distance1 > 5000)
+  135   1        //  {
+  136   1        //    annulus_flag = many_ring;
+  137   1        //    distance1 = 0;
+  138   1        //    distance_integral_flag1 = 0; //Í£Ö¹Â·³Ì»ý·Ö
+  139   1        //  }
+  140   1        // }
+  141   1        else if (annulus_flag == 2) //ÔÚ»·µºÄÚ
+  142   1        {
+  143   2          if (abs(angle1) > 9500)
+  144   2          {
+  145   3            distance_integral_flag1 = 1; //¿ªÆôÂ·³Ì»ý·Ö
+  146   3            annulus_flag = -1;
+  147   3            // annulus_flag = 0; //³ö»·
+  148   3            annulus_flag_k_index++;
+  149   3          }
+  150   2        }
+  151   1        // else if (annulus_flag == 3) //´ò½Ç³ö»·
+  152   1        // {
+  153   1        //  if (distance1 < 2600 /*&&Annulus_Distance>500*/) //¿ØÖÆ¹Ì¶¨´ò½ÇµÄÊ±¼ä50---100   ·Ç³£ÖØÒª£¡£¡£¡£¡£¡£¡
+             -£¡£¡£¡£¡£¡£¡
+  154   1        //  {
+  155   1        //    if (Left_Annulus == 1) //×ó»·³ö
+  156   1        //    {
+  157   1        //      pidS.result = 1200;
+  158   1        //    }
+  159   1        //    else if (!Left_Annulus) //ÓÒ»·³ö
+  160   1        //    {
+  161   1        //      pidS.result = -1200;
+  162   1        //    }
+  163   1        //  }
+  164   1        //  else if (/*distance > 2600*/ 1) //»·µº½áÊø
+  165   1        //  {
+  166   1        //    annulus_flag = 4; //×ªÏò½áÊø
+  167   1        //    distance1 = 0;
+  168   1        //    distance_integral_flag1 = 1; //¼ÌÐøÂ·³Ì»ý·Ö·ÀÖ¹Ö±½Ó½øÈë»·µº
+  169   1        //    k_add = 0;
+  170   1        //  }
+  171   1        // }
+  172   1        // else if (annulus_flag == 4)
+  173   1        // {
+  174   1        //  if (distance1 > 10000)
+  175   1        //  {
+  176   1        //    all_reset();
+  177   1        //  }
+  178   1        // }
+  179   1      
+  180   1        //ÆÂµÀ·ÀÎóÅÐÎª»·µº
+  181   1        if (abs(imu963ra_gyro_x) > 1000)
+  182   1        {
+  183   2          gyro_x_count++;
+  184   2        }
+  185   1        else
+  186   1        {
+  187   2          gyro_x_count = 0;
+C251 COMPILER V5.60.0,  ringjudge                                                          11/07/23  17:03:02  PAGE 4   
+
+  188   2        }
+  189   1        if (gyro_x_count >= 3)
+  190   1        {
+  191   2          all_reset();
+  192   2        }
+  193   1      }
+  194          
+  195          void obstacle_control()
+  196          {
+  197   1        //***********************±ÜÕÏ*****************************
+  198   1        if (dodge_flag == -1 && leave_flag >= 3)
+  199   1        {
+  200   2          //¼ì²âÊ®´Î  tof
+  201   2          if (tof_distance <= 0)
+  202   2          {
+  203   3            tof_count++;
+  204   3          }
+  205   2          tof_count_flag++; //ÎïÌå¼ì²â´ÎÊý++
+  206   2          if (tof_count_flag == 10)
+  207   2          {
+  208   3            if (tof_count >= 8)
+  209   3            {
+  210   4              dodge_flag++;
+  211   4              distance1 = 0;
+  212   4              angle1 = 0;
+  213   4            }
+  214   3            tof_count_flag = 0;
+  215   3          }
+  216   2        }
+  217   1        else if (dodge_flag == 1) //Òª×ª½Ç
+  218   1        {
+  219   2          //×ó´ò½Ç
+  220   2          distance_integral_flag1 = 1;
+  221   2          angle_integral_flag1 = 1;
+  222   2          pidS.result = 500;
+  223   2          if (angle1 > 25)
+  224   2          {
+  225   3            pidS.result = 0;
+  226   3            // distance_integral_flag1 = 0;
+  227   3            // angle_integral_flag1 = 0;  //¹Ø±Õ½Ç¶È»ý·Ö
+  228   3            if (distance1 < 6500)
+  229   3            {
+  230   4              //²»×ö´¦Àí
+  231   4            }
+  232   3            else
+  233   3            {
+  234   4              distance_integral_flag1 = 0;
+  235   4              distance1 = 0;
+  236   4              dodge_flag++;
+  237   4            }
+  238   3          }
+  239   2        }
+  240   1        else if (dodge_flag == 2)
+  241   1        {
+  242   2          //´ò»ØÕýÏò
+  243   2          pidS.result = -600;
+  244   2          if (straight_flag == 0 && angle1 < 5)
+  245   2          {
+  246   3            distance_integral_flag1 = 1;
+  247   3            if (distance1 < 9000)
+  248   3            {
+  249   4              pidS.result = 0;
+  250   4            }
+  251   3            else
+  252   3            {
+  253   4              straight_flag = 1;
+C251 COMPILER V5.60.0,  ringjudge                                                          11/07/23  17:03:02  PAGE 5   
+
+  254   4              distance_integral_flag1 = 0;
+  255   4              distance1 = 0;
+  256   4              dodge_flag++;
+  257   4            }
+  258   3          }
+  259   2        }
+  260   1        else if (dodge_flag == 3)
+  261   1        {
+  262   2          //ÓÒ´ò½Ç
+  263   2          pidS.result = -600;
+  264   2          if (angle1 < -25)
+  265   2          {
+  266   3            dodge_flag++;
+  267   3            //      distance1 = 0;
+  268   3            angle1 = 0;
+  269   3            //      distance_integral_flag1 = 0;
+  270   3            angle_integral_flag1 = 0;
+  271   3          }
+  272   2        }
+  273   1      }
+  274          
+  275          void all_reset()
+  276          {
+  277   1        angle = 0;
+  278   1        distance1 = 0;
+  279   1        Ring_forecast = 0;
+  280   1        annulus_flag = 0;
+  281   1        Ring_in = 0;
+  282   1        Ring_running = 0;
+  283   1        Ring_out = 0;
+  284   1        Left_Annulus = 0;
+  285   1        Ring_finish = 0;
+  286   1        first_flag = 0;
+  287   1        angle_integral_flag1 = 0;
+  288   1        distance_integral_flag1 = 0; //Â·³Ì»ý·Ö±êÖ¾Î»
+  289   1        k_add = 0;           // kÖµÀÛ¼Ó
+  290   1      }
+
+
+Module Information          Static   Overlayable
+------------------------------------------------
+  code size            =      1272     ------
+  ecode size           =    ------     ------
+  data size            =    ------     ------
+  idata size           =    ------     ------
+  pdata size           =    ------     ------
+  xdata size           =        32     ------
+  xdata-const size     =    ------     ------
+  edata size           =    ------     ------
+  bit size             =    ------     ------
+  ebit size            =    ------     ------
+  bitaddressable size  =    ------     ------
+  ebitaddressable size =    ------     ------
+  far data size        =    ------     ------
+  huge data size       =    ------     ------
+  const size           =    ------     ------
+  hconst size          =       152     ------
+End of Module Information.
+
+
+C251 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

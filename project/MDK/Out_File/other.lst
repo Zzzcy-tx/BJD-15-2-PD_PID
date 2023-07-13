@@ -1,0 +1,255 @@
+C251 COMPILER V5.60.0,  other                                                              11/07/23  16:21:03  PAGE 1   
+
+
+C251 COMPILER V5.60.0, COMPILATION OF MODULE other
+OBJECT MODULE PLACED IN .\Out_File\other.obj
+COMPILER INVOKED BY: D:\software\keil\C251\BIN\C251.EXE ..\CODE\other.c LARGE INTR2 WARNINGLEVEL(3) OPTIMIZE(0,SPEED) BR
+                    -OWSE INCDIR(..\..\Libraries\libraries;..\..\Libraries\seekfree_libraries;..\..\Libraries\seekfree_peripheral;..\CODE;..\
+                    -USER\inc;..\USER\src) DEBUG PRINT(.\Out_File\other.lst) TABS(2) OBJECT(.\Out_File\other.obj) 
+
+stmt  level    source
+
+    1          #include "headfile.h"
+    2          #include "stdlib.h"
+    3          #include "data.h"
+    4          #include "element.h"
+    5          #include "eeprom.h"
+    6          
+    7          int str_i = 0;
+    8          int str_eq = 0;
+    9          int str_position = 0;
+   10          char str_num_str[100];
+   11          
+   12          void allInit()
+   13          {
+   14   1        //编码器计数初始化
+   15   1        ctimer_count_init(CTIM0_P34);
+   16   1        ctimer_count_init(CTIM3_P04);
+   17   1      
+   18   1        //电机pwm与方向初始化
+   19   1        pwm_init(PWMA_CH1P_P60, 17000, 0);
+   20   1        pwm_init(PWMA_CH2P_P62, 17000, 0);
+   21   1      
+   22   1        pwm_init(PWMB_CH1_P74, 50, 0);
+   23   1        pwm_init(PWMB_CH2_P75, 50, 0);
+   24   1      
+   25   1        gpio_mode(P6_6, GPO_PP);
+   26   1        gpio_mode(P6_4, GPO_PP);
+   27   1      
+   28   1        gpio_mode(P7_7, GPO_PP);
+   29   1        P77 = 0;
+   30   1      
+   31   1        imu963ra_init(); //六轴陀螺仪初始化
+   32   1      
+   33   1        adc_init(ADC_P00, ADC_SYSclk_DIV_2);
+   34   1        adc_init(ADC_P01, ADC_SYSclk_DIV_2);
+   35   1        adc_init(ADC_P05, ADC_SYSclk_DIV_2);
+   36   1        adc_init(ADC_P06, ADC_SYSclk_DIV_2);
+   37   1        adc_init(ADC_P02, ADC_SYSclk_DIV_2);
+   38   1        adc_init(ADC_P10, ADC_SYSclk_DIV_2);
+   39   1        adc_init(ADC_P11, ADC_SYSclk_DIV_2);
+   40   1        adc_init(ADC_P15, ADC_SYSclk_DIV_2);
+   41   1        adc_init(ADC_P16, ADC_SYSclk_DIV_2);
+   42   1        adc_init(ADC_P14, ADC_SYSclk_DIV_2);
+   43   1        imu963ra_init(); //陀螺仪初始化
+   44   1                 // while (dl1a_init())
+   45   1                 // {
+   46   1                 //   delay_ms(500);
+   47   1                 //   printf("VL53L0X init try again.\r\n");
+   48   1                 // }
+   49   1        ips200_init();
+   50   1        ips200_clear(IPS200_BGCOLOR);
+   51   1      
+   52   1        iap_init();
+   53   1        my_iap_init();
+   54   1      }
+   55          
+   56          //无线调参的参数在这里设置，加一个switch即可加一个调参参数(浮点数用%f,整数用%.0f)
+   57          void any_change(int16 id, char cp[])
+C251 COMPILER V5.60.0,  other                                                              11/07/23  16:21:03  PAGE 2   
+
+   58          {
+   59   1        switch (id)
+   60   1        {
+   61   2        case 0:
+   62   2          start_flag = atoi(cp);
+   63   2          break;
+   64   2        case 1:
+   65   2          test1 = atoi(cp);
+   66   2          break;
+   67   2        case 2:
+   68   2          P_LR = atof(cp);
+   69   2          break;
+   70   2        case 3:
+   71   2          I_LR = atof(cp);
+   72   2          break; //浮点数用atof
+   73   2        case 4:
+   74   2          wSet = atoi(cp);
+   75   2          break; //整数数用atoi
+   76   2        case 5:
+   77   2          test1 = atoi(cp);
+   78   2          break; //整数数用atoi
+   79   2        case 6:
+   80   2          P_S = atof(cp);
+   81   2          break; //浮点数用atof
+   82   2        case 7:
+   83   2          D_S = atof(cp);
+   84   2          break; //浮点数用atof
+   85   2               // case后面的是序号
+   86   2        case 8:
+   87   2          sp_set = atoi(cp);
+   88   2          break;
+   89   2        case 9:
+   90   2          into_flag = atoi(cp);
+   91   2          break; //浮点数用atof
+   92   2        case 10:
+   93   2          P_W = atoi(cp);
+   94   2          break; //浮点数用atof
+   95   2        case 11:
+   96   2          D_W = atoi(cp);
+   97   2          break; //浮点数用atof
+   98   2        case 12:
+   99   2          aimed_angle = atoi(cp);
+  100   2          break; //浮点数用atof
+  101   2        case 13:
+  102   2          dis1 = atoi(cp);
+  103   2          break; //浮点数用atof
+  104   2        case 14:
+  105   2          dis2 = atoi(cp);
+  106   2          break; //浮点数用atof
+  107   2        case 15:
+  108   2          G_S_1 = atof(cp);
+  109   2          break; //浮点数用atof
+  110   2        case 16:
+  111   2          fanL = atoi(cp);
+  112   2          break; //浮点数用atof
+  113   2        case 17:
+  114   2          fanR = atoi(cp);
+  115   2          break; //浮点数用atof
+  116   2        case 18:
+  117   2          aimed_into_speed = atoi(cp);
+  118   2          break;
+  119   2        case 19:
+  120   2          into_R = atof(cp);
+  121   2          break;
+  122   2        case 20:
+  123   2          sp_set_max = atoi(cp);
+C251 COMPILER V5.60.0,  other                                                              11/07/23  16:21:03  PAGE 3   
+
+  124   2          break;
+  125   2        case 21:
+  126   2          P_S_MAX = atof(cp);
+  127   2          break;
+  128   2        case 22:
+  129   2          ku_distance = atoi(cp);
+  130   2          break;
+  131   2        case 23:
+  132   2          ring_angle = atoi(cp);
+  133   2          break;
+  134   2        case 24:
+  135   2          G_S_zhi = atof(cp);
+  136   2          break;
+  137   2        case 25:
+  138   2          D_S_z = atof(cp);
+  139   2          break;
+  140   2        }
+  141   1      }
+  142          
+  143          //无线调参字符串解析函数
+  144          void rx_analysis()
+  145          {
+  146   1        str_i = 0;
+  147   1        str_eq = 0;
+  148   1        str_position = 0;
+  149   1        //字符串解析函数
+  150   1      
+  151   1        //解析变量名
+  152   1        while (uart_str[str_position] != '=' && str_position < 100)
+  153   1        {
+  154   2          str_position++;
+  155   2        }
+  156   1      
+  157   1        for (str_i = 0; str_i < str_position; str_i++)
+  158   1        {
+  159   2          str_item[str_i] = uart_str[str_i];
+  160   2        }
+  161   1        str_item[str_i] = '\0';
+  162   1        str_eq = str_position;
+  163   1        // printf("%d,%d\n",str_position,str_eq);
+  164   1        //解析值
+  165   1        while (uart_str[str_position] != '#' && str_position < 100)
+  166   1        {
+  167   2          str_position++;
+  168   2        }
+  169   1        // printf("%d,%d\n",str_position,str_eq);
+  170   1        for (str_i = 0; str_i < str_position - 2; str_i++)
+  171   1        {
+  172   2          str_num_str[str_i] = uart_str[str_i + str_eq + 1];
+  173   2        }
+  174   1        str_num_str[str_i] = '\0';
+  175   1        str_num = atoi(str_num_str);
+  176   1      
+  177   1        any_change(atoi(str_item), str_num_str);
+  178   1        // printf("%s,%d\n",str_item,atoi(str_num_str)+1);
+  179   1      }
+  180          
+  181          //将角度转换为陀螺仪输出值 例如90度即为angle_change(90)
+  182          float angle_change(float ang)
+  183          {
+  184   1        return ang * 28.05;
+  185   1      }
+  186          
+  187          void my_iap_init()
+  188          {
+  189   1        P_S_MAX = iap_read_float(8, 0x00);
+C251 COMPILER V5.60.0,  other                                                              11/07/23  16:21:03  PAGE 4   
+
+  190   1        D_S_z = iap_read_float(8, 0x10);
+  191   1        D_S = iap_read_float(8, 0x20);
+  192   1        G_S_1 = iap_read_float(8, 0x30);
+  193   1        G_S_zhi = iap_read_float(8, 0x40);
+  194   1        P_LR = iap_read_float(8, 0x50);
+  195   1        I_LR = iap_read_float(8, 0x60);
+  196   1        P_S = iap_read_float(8, 0x70);
+  197   1        dis1 = iap_read_float(8, 0x80);
+  198   1        dis2 = iap_read_float(8, 0x90);
+  199   1        // adc_sum[0] = iap_read_float(8, 0xA0);
+  200   1        // adc_sum[1] = iap_read_float(8, 0xB0);
+  201   1        // adc_sum[2] = iap_read_float(8, 0xC0);
+  202   1        // adc_sum[3] = iap_read_float(8, 0xD0);
+  203   1        // adc_sum[4] = iap_read_float(8, 0xE0);
+  204   1        // adc_sum[5] = iap_read_float(8, 0xF0);
+  205   1        // adc_sum[6] = iap_read_float(8, 0x100);
+  206   1        // adc_sum[7] = iap_read_float(8, 0x110);
+  207   1        // adc_sum[8] = iap_read_float(8, 0x120);
+  208   1        // adc_sum[9] = iap_read_float(8, 0x130);
+  209   1        ring_set_k[0] = iap_read_float(8, 0x140);
+  210   1        ring_set_k[1] = iap_read_float(8, 0x150);
+  211   1        ring_set_k[2] = iap_read_float(8, 0x160);
+  212   1        ring_set_k[3] = iap_read_float(8, 0x170);
+  213   1        ring_set_k[4] = iap_read_float(8, 0x180);
+  214   1      }
+
+
+Module Information          Static   Overlayable
+------------------------------------------------
+  code size            =      1707     ------
+  ecode size           =    ------     ------
+  data size            =    ------     ------
+  idata size           =    ------     ------
+  pdata size           =    ------     ------
+  xdata size           =       116     ------
+  xdata-const size     =    ------     ------
+  edata size           =    ------     ------
+  bit size             =    ------     ------
+  ebit size            =    ------     ------
+  bitaddressable size  =    ------     ------
+  ebitaddressable size =    ------     ------
+  far data size        =    ------     ------
+  huge data size       =    ------     ------
+  const size           =    ------     ------
+  hconst size          =        21     ------
+End of Module Information.
+
+
+C251 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

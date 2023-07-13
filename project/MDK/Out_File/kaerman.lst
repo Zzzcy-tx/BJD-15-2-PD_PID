@@ -1,0 +1,335 @@
+C251 COMPILER V5.60.0,  kaerman                                                            11/07/23  11:24:26  PAGE 1   
+
+
+C251 COMPILER V5.60.0, COMPILATION OF MODULE kaerman
+OBJECT MODULE PLACED IN .\Out_File\kaerman.obj
+COMPILER INVOKED BY: D:\software\keil\C251\BIN\C251.EXE ..\CODE\kaerman.c LARGE INTR2 WARNINGLEVEL(3) OPTIMIZE(0,SPEED) 
+                    -BROWSE INCDIR(..\..\Libraries\libraries;..\..\Libraries\seekfree_libraries;..\..\Libraries\seekfree_peripheral;..\CODE;.
+                    -.\USER\inc;..\USER\src) DEBUG PRINT(.\Out_File\kaerman.lst) TABS(2) OBJECT(.\Out_File\kaerman.obj) 
+
+stmt  level    source
+
+    1          #include "kaerman.h"
+    2          
+    3          float accel_x;      // X÷·º”ÀŸ∂»÷µ
+    4          float accel_y;      // Y÷·º”ÀŸ∂»÷µ
+    5          float accel_z;      // Z÷·º”ÀŸ∂»÷µ
+    6          float gyro_x;       // X÷·Õ”¬›“«Ω«ÀŸ∂» ˝æ›
+    7          float gyro_y;       // Y÷·Õ”¬›“«Ω«ÀŸ∂» ˝æ›
+    8          float gyro_z;       // Z÷·Õ”¬›“«Ω«ÀŸ∂» ˝æ›
+    9          float accel_x_rea;  // X÷·º”ÀŸ∂»÷µ
+   10          float accel_y_rea;  // Y÷·º”ÀŸ∂»÷µ
+   11          float accel_z_rea;  // Z÷·º”ÀŸ∂»÷µ
+   12          float gyro_x_rea;   // X÷·Õ”¬›“«Ω«ÀŸ∂» ˝æ›
+   13          float gyro_y_rea;   // Y÷·Õ”¬›“«Ω«ÀŸ∂» ˝æ›
+   14          float gyro_z_rea;   // Z÷·Õ”¬›“«Ω«ÀŸ∂» ˝æ›
+   15          float yaw_raw;      //∫ΩœﬂΩ«yaw‘≠ º ˝æ›
+   16          float yaw_kalman;   // yaw¬À≤®∫Û ˝æ›
+   17          float pitch_kalman; // pitch¬À≤®∫Û ˝æ›
+   18          float pitch_raw;    //∏©—ˆΩ«pitch‘≠ º ˝æ›
+   19          float roll_kalman;  // roll¬À≤®∫Û ˝æ›
+   20          float roll_raw;     //∫·πˆΩ«roll‘≠ º ˝æ›
+   21          
+   22          //ø®∂˚¬¸¬À≤®£®æ…£©
+   23          static double p_last = 0;
+   24          static double x_last = 0;
+   25          double R = 0.1; //¬À≤®≤Œ ˝£¨‘Ω–°‘Ω∆Ωª¨
+   26          double Q = 30;  //¬À≤®≤Œ ˝£¨‘Ω¥Û‘Ω∆Ωª¨
+   27          double KalmanFilter(const double ResrcData)
+   28          {
+   29   1      
+   30   1        double x_mid;
+   31   1        double x_now;
+   32   1      
+   33   1        double p_mid;
+   34   1        double p_now;
+   35   1      
+   36   1        double kg;
+   37   1      
+   38   1        //’‚¿Ôp_last µ»”⁄ kalmanFilter_A µƒp÷±Ω”»°0
+   39   1        x_mid = x_last;     // x_last=x(k-1|k-1),x_mid=x(k|k-1)
+   40   1        p_mid = p_last + Q; // p_mid=p(k|k-1),p_last=p(k-1|k-1),Q=‘Î…˘
+   41   1      
+   42   1        /*
+   43   1         *  ø®∂˚¬¸¬À≤®µƒŒÂ∏ˆ÷ÿ“™π´ Ω
+   44   1         */
+   45   1        kg = p_mid / (p_mid + R);                 // kgŒ™kalman filter£¨R Œ™‘Î…˘
+   46   1        x_now = x_mid + kg * (ResrcData - x_mid); //π¿º∆≥ˆµƒ◊Ó”≈÷µ
+   47   1        p_now = (1 - kg) * p_mid;                 //◊Ó”≈÷µ∂‘”¶µƒcovariance
+   48   1        p_last = p_now;                           //∏¸–¬covariance ÷µ
+   49   1        x_last = x_now;                           //∏¸–¬œµÕ≥◊¥Ã¨÷µ
+   50   1      
+   51   1        return x_now;
+   52   1      }
+   53          
+   54          void Angle_Cal()
+   55          {
+   56   1        imu963ra_get_acc();
+   57   1        imu963ra_get_gyro();
+C251 COMPILER V5.60.0,  kaerman                                                            11/07/23  11:24:26  PAGE 2   
+
+   58   1        // 1.ªÒ»°º”ÀŸ∂»∫ÕΩ«∂» ˝æ›
+   59   1        accel_x = imu963ra_acc_x;
+   60   1        accel_y = imu963ra_acc_y;
+   61   1        accel_z = imu963ra_acc_z;
+   62   1        gyro_x = imu963ra_gyro_x;
+   63   1        gyro_y = imu963ra_gyro_y;
+   64   1        gyro_z = imu963ra_gyro_z;
+   65   1      
+   66   1        // 2.Ω«º”ÀŸ∂»‘≠ º÷µ¥¶¿Ìπ˝≥Ã
+   67   1        if (accel_x < 32764)
+   68   1          accel_x_rea = accel_x / 4098.0;
+   69   1        else
+   70   1          accel_x_rea = 1 - (accel_x - 49152) / 4098.0;
+   71   1        if (accel_y < 32764)
+   72   1          accel_y_rea = accel_y / 4098.0;
+   73   1        else
+   74   1          accel_y_rea = 1 - (accel_y - 49152) / 4098.0;
+   75   1        if (accel_z < 32764)
+   76   1          accel_z_rea = accel_z / 4098.0;
+   77   1        else
+   78   1          accel_z_rea = 1 - (accel_z - 49152) / 4098.0;
+   79   1      
+   80   1        //º”ÀŸ∂»∑¥’˝«–π´ Ωº∆À„»˝∏ˆ÷·∫ÕÀÆ∆Ω√Ê◊¯±Íœµ÷Æº‰µƒº–Ω«
+   81   1        pitch_raw = (atan(accel_y_rea / accel_z_rea)) * 180 / 3.14;
+   82   1        roll_raw = (atan(accel_x_rea / accel_z_rea)) * 180 / 3.14;
+   83   1        yaw_raw = (atan(accel_y_rea / accel_x_rea)) * 180 / 3.14;
+   84   1      
+   85   1        // 3.Ω«ÀŸ∂»‘≠ º÷µ¥¶¿Ìπ˝≥Ã
+   86   1        if (gyro_x_rea < 32768)
+   87   1          gyro_x_rea = -(gyro_x_rea / 14.3);
+   88   1        if (gyro_x_rea > 32768)
+   89   1          gyro_x_rea = +(65535 - gyro_x_rea) / 14.3;
+   90   1        if (gyro_y_rea < 32768)
+   91   1          gyro_y_rea = -(gyro_y_rea / 14.3);
+   92   1        if (gyro_y_rea > 32768)
+   93   1          gyro_y_rea = +(65535 - gyro_y_rea) / 14.3;
+   94   1        if (gyro_z_rea < 32768)
+   95   1          gyro_z_rea = -(gyro_z_rea / 14.3);
+   96   1        if (gyro_z_rea > 32768)
+   97   1          gyro_z_rea = +(65535 - gyro_z_rea) / 14.3;
+   98   1      
+   99   1        // 4.µ˜”√ø®∂˚¬¸∫Ø ˝
+  100   1        Kalman_Cal_Pitch(pitch_raw, gyro_x_rea); //ø®∂˚¬¸¬À≤®º∆À„∏©—ˆΩ«
+  101   1                                                 // Kalman_Cal_Roll(roll_raw,gyro_y_rea);  //ø®∂˚¬¸¬À≤®º∆À„«„–±
+             -Ω«
+  102   1                                                 // Kalman_Cal_Yaw(yaw_raw,gyro_z_rea);  //ø®∂˚¬¸¬À≤®º∆À„∆´∫ΩΩ«
+  103   1          if (pitch_kalman > 15)
+  104   1          {
+  105   2            puodao = 1;
+  106   2          }
+  107   1          else if(puodao == 1 && pitch_kalman < -10)
+  108   1          {
+  109   2            puodao = 2;
+  110   2          }
+  111   1         else if(puodao == 2 && pitch_kalman <5)
+  112   1          {
+  113   2            puodao = 0;
+  114   2          }
+  115   1          else
+  116   1          {
+  117   2            puodao = 0;
+  118   2          }
+  119   1      }
+  120          
+  121          //ø®∂˚¬¸≤Œ ˝
+  122          static float Q_angle = 0.0003; //Ω«∂» ˝æ›÷√–≈∂»£¨Ω«∂»‘Î…˘µƒ–≠∑Ω≤Ó
+C251 COMPILER V5.60.0,  kaerman                                                            11/07/23  11:24:26  PAGE 3   
+
+  123          static float Q_gyro = 0.0009;  //Ω«ÀŸ∂» ˝æ›÷√–≈∂»£¨Ω«ÀŸ∂»‘Î…˘µƒ–≠∑Ω≤Ó
+  124          static float R_angle = 0.8;    //º”ÀŸ∂»º∆≤‚¡ø‘Î…˘µƒ–≠∑Ω≤Ó
+  125          static float dt = 0.005;       //≤…—˘÷‹∆⁄º¥º∆À„»ŒŒÒ÷‹∆⁄5ms
+  126          
+  127          void Kalman_Cal_Pitch(float acc, float gyro) //ø®∂˚¬¸¬À≤®pitch÷·º∆À„
+  128          {
+  129   1        static float Q_bias0;                      // Q_bias:Õ”¬›“«µƒ∆´≤Ó
+  130   1        static float K_00, K_10;                   //ø®∂˚¬¸‘ˆ“Ê  K_0:”√”⁄º∆À„◊Ó”≈π¿º∆÷µ  K_1:”√”⁄º∆À„◊Ó”≈π¿º∆÷µ
+             -µƒ∆´≤Ó t_0/1:÷–º‰±‰¡ø
+  131   1        static float PP0[2][2] = {{1, 0}, {0, 1}}; //π˝≥Ã–≠∑Ω≤Óæÿ’ÛP£¨≥ı º÷µŒ™µ•Œª’Û
+  132   1      
+  133   1        /*
+  134   1          ø®∂˚¬¸¬À≤®µƒ π”√≤Ω÷Ë
+  135   1          (1) —°‘Ò◊¥Ã¨¡ø°¢π€≤‚¡ø
+  136   1          (2) ππΩ®∑Ω≥Ã
+  137   1          (3) ≥ı ºªØ≤Œ ˝
+  138   1          (4) ¥¯»Îπ´ Ωµ¸¥˙
+  139   1          (5) µ˜Ω⁄≥¨≤Œ ˝P°¢Q
+  140   1        */
+  141   1        /*
+  142   1        X(k)£∫k ±øÃœµÕ≥◊¥Ã¨       Z(k)£∫k ±øÃ≤‚¡ø÷µ
+  143   1        U(k)£∫k ±øÃ∂‘œµÕ≥øÿ÷∆¡ø   H£∫≤‚¡øœµÕ≥≤Œ ˝
+  144   1                                                 ∑Ω≤Ó
+  145   1        A/F£∫◊¥Ã¨◊™“∆æÿ’Û         W(k)£∫π˝≥Ã‘Î…˘ ----> Q
+  146   1                                                 ∑Ω≤Ó
+  147   1        B£∫øÿ÷∆æÿ’Û               V(k)£∫≤‚¡ø‘Î…˘ ----> R
+  148   1      
+  149   1                          ¿Î…¢øÿ÷∆œµÕ≥
+  150   1        œµÕ≥√Ë ˆ£∫X(k|k-1) = AX(k-1|k-1) + BU(k) + (W(k))
+  151   1        ≤‚¡ø÷µ£∫Z(k) = HX(k) + V(k)
+  152   1        */
+  153   1        /*
+  154   1        1. œ»—Èπ¿º∆
+  155   1      * * *π´ Ω1£∫X(k|k-1) = AX(k-1|k-1) + BU(k) + (W(k))
+  156   1      
+  157   1          X = (Angle,Q_bias)
+  158   1          A(1,1) = 1,A(1,2) = -dt
+  159   1          A(2,1) = 0,A(2,2) = 1
+  160   1          ◊¢£∫…œœ¬¡¨°∞[°±¥˙±Ìæÿ’Û
+  161   1          ‘§≤‚µ±«∞Ω«∂»÷µ£∫
+  162   1          [ angle ]   [1 -dt][ angle ]   [dt]
+  163   1          [ Q_bias] = [0  1 ][ Q_bias] + [ 0] * newGyro(º”ÀŸ∂»º∆≤‚¡ø÷µ)
+  164   1          π 
+  165   1          angle = angle - Q_bias*dt + newGyro * dt
+  166   1          Q_bias = Q_bias
+  167   1        */
+  168   1        pitch_kalman += (gyro - Q_bias0) * dt; //◊¥Ã¨∑Ω≥Ã,Ω«∂»÷µµ»”⁄…œ¥Œ◊Ó”≈Ω«∂»º”Ω«ÀŸ∂»ºı¡„∆Ø∫Ûª˝∑÷
+  169   1      
+  170   1        /*
+  171   1        2. ‘§≤‚–≠∑Ω≤Óæÿ’Û
+  172   1      * * *π´ Ω2£∫P(k|k-1)=AP(k-1|k-1)A^T + Q
+  173   1      
+  174   1          ”…œ»—Èπ¿º∆”–œµÕ≥≤Œ ˝
+  175   1              [1 -dt]
+  176   1          A = [0  1 ]
+  177   1      
+  178   1          œµÕ≥π˝≥Ã–≠∑Ω≤Ó‘Î…˘Q∂®“Â£∫
+  179   1          | cov(angle,angle)  cov(Q_bias,angle) |
+  180   1          | cov(angle,Q_bias) cov(Q_bias,Q_bias)|
+  181   1             Ω«∂»‘Î…˘∫ÕΩ«ÀŸ∂»∆Ø“∆‘Î…˘œ‡ª•∂¿¡¢
+  182   1          | D( angle )        0    |
+  183   1        = |     0       D( Q_bias )|
+  184   1          ”÷Q_angle∫ÕQ_biasµƒ∑Ω≤ÓŒ™≥£ ˝£¨
+  185   1          ø…”…æ≠—ÈªÚº∆À„µ√≥ˆ
+  186   1      
+  187   1          ¡ÓD( angle )  = Q_angle
+C251 COMPILER V5.60.0,  kaerman                                                            11/07/23  11:24:26  PAGE 4   
+
+  188   1            D( Q_bias ) = Q_gyro
+  189   1      
+  190   1          …Ë…œ“ª¥Œ‘§≤‚–≠∑Ω≤Óæÿ’ÛŒ™P(k-1)
+  191   1                            |a(k-1)  b(k-1)|
+  192   1                            |c(k-1)  d(k-1)|
+  193   1          ±æ¥Œ‘§≤‚–≠∑Ω≤Óæÿ’ÛP(k)
+  194   1                            |a(k)  b(k)|
+  195   1                            |c(k)  d(k)|
+  196   1          ”…π´ Ω2£∫P(k|k-1)=AP(k-1|k-1)A^T + Q µ√
+  197   1          |a(k)  b(k)|    |1 -dt| |a(k-1) b(k-1)| |1   0|   | D( angle )        0    |
+  198   1          |c(k)  d(k)| =  |0  1 | |c(k-1) d(k-1)| |-dt 1| + |     0       D( Q_bias )|
+  199   1      
+  200   1          Ω¯“ª≤Ωµ√
+  201   1          |a(k)  b(k)|    |a(k-1) - [c(k-1) + b(k-1)]*dt + d(dt)^2    b(k-1) - d(k-1)*dt|   | D( angle )        0    |
+  202   1          |c(k)  d(k)| =  |       c(k-1) - d(k-1)*dt                          d(k-1)    | + |     0       D( Q_bias )|
+  203   1      
+  204   1          ”…”⁄dt^2Ã´–°£¨π dt^2 °¬‘
+  205   1        */
+  206   1      
+  207   1        PP0[0][0] = PP0[0][0] + Q_angle - (PP0[0][1] + PP0[1][0]) * dt;
+  208   1        PP0[0][1] = PP0[0][1] - PP0[1][1] * dt;
+  209   1        PP0[1][0] = PP0[1][0] - PP0[1][1] * dt;
+  210   1        PP0[1][1] = PP0[1][1] + Q_gyro;
+  211   1      
+  212   1        /*
+  213   1          3. Ω®¡¢≤‚¡ø∑Ω≥Ã
+  214   1            œµÕ≥≤‚¡ø∑Ω≥Ã Z(k) = HX(k) + V(k)
+  215   1            œµÕ≥≤‚¡øœµ ˝ H = [1, 0]
+  216   1            “ÚŒ™Õ”¬›“« ‰≥ˆ◊‘¥¯‘Î…˘
+  217   1            À˘“‘
+  218   1            measure = newAngle
+  219   1        */
+  220   1      
+  221   1        /*
+  222   1          4. º∆À„ø®∂˚¬¸‘ˆ“Ê
+  223   1      * * *π´ Ω3£∫Kg(k)= P(k|k-1)H^T/(HP(k|k-1)H^T+R)
+  224   1              Kg = (K_0,K_1) ∂‘”¶angle,Q_bias‘ˆ“Ê
+  225   1              H = (1,0)
+  226   1        */
+  227   1        K_00 = PP0[0][0] / (PP0[0][0] + R_angle);
+  228   1        K_10 = PP0[1][0] / (PP0[0][0] + R_angle);
+  229   1      
+  230   1        /*
+  231   1          5. º∆À„µ±«∞◊Ó”≈ªØπ¿º∆÷µ
+  232   1      * * *π´ Ω4£∫X(k|k) = X(k|k-1) + kg(k)[z(k) - HX(k|k-1)]
+  233   1          angle = angle + K_0*(newAngle - angle)
+  234   1          Q_bias = Q_bias + K_1*(newAngle - angle)
+  235   1        */
+  236   1      
+  237   1        pitch_kalman = pitch_kalman + K_00 * (acc - pitch_kalman);
+  238   1        Q_bias0 = Q_bias0 + K_10 * (acc - pitch_kalman);
+  239   1      
+  240   1        /*
+  241   1          6. ∏¸–¬–≠∑Ω≤Óæÿ’Û
+  242   1      * * *π´ Ω5£∫P(k|k)=[I-Kg(k)H]P(k|k-1)
+  243   1        */
+  244   1        PP0[0][0] = PP0[0][0] - K_00 * PP0[0][0];
+  245   1        PP0[0][1] = PP0[0][1] - K_00 * PP0[0][1];
+  246   1        PP0[1][0] = PP0[1][0] - K_10 * PP0[0][0];
+  247   1        PP0[1][1] = PP0[1][1] - K_10 * PP0[00][1];
+  248   1      }
+  249          
+  250          void Kalman_Cal_Roll(float acc, float gyro) //ø®∂˚¬¸¬À≤®roll÷·º∆À„
+  251          {
+  252   1        static float Q_bias;                      // Q_bias:Õ”¬›“«µƒ∆´≤Ó  Angle_err:Ω«∂»∆´¡ø
+  253   1        static float K_0, K_1;                    //ø®∂˚¬¸‘ˆ“Ê  K_0:”√”⁄º∆À„◊Ó”≈π¿º∆÷µ  K_1:”√”⁄º∆À„◊Ó”≈π¿º∆÷µµ
+C251 COMPILER V5.60.0,  kaerman                                                            11/07/23  11:24:26  PAGE 5   
+
+             -ƒ∆´≤Ó t_0/1:÷–º‰±‰¡ø
+  254   1        static float PP[2][2] = {{1, 0}, {0, 1}}; //π˝≥Ã–≠∑Ω≤Óæÿ’ÛP£¨≥ı º÷µŒ™µ•Œª’Û
+  255   1        roll_kalman += (gyro - Q_bias) * dt;      //◊¥Ã¨∑Ω≥Ã,Ω«∂»÷µµ»”⁄…œ¥Œ◊Ó”≈Ω«∂»º”Ω«ÀŸ∂»ºı¡„∆Ø∫Ûª˝∑÷
+  256   1        PP[0][0] = PP[0][0] + Q_angle - (PP[0][1] + PP[1][0]) * dt;
+  257   1        PP[0][1] = PP[0][1] - PP[1][1] * dt;
+  258   1        PP[1][0] = PP[1][0] - PP[1][1] * dt;
+  259   1        PP[1][1] = PP[1][1] + Q_gyro;
+  260   1        K_0 = PP[0][0] / (PP[0][0] + R_angle);
+  261   1        K_1 = PP[1][0] / (PP[0][0] + R_angle);
+  262   1        roll_kalman = roll_kalman + K_0 * (acc - roll_kalman);
+  263   1        Q_bias = Q_bias + K_1 * (acc - roll_kalman);
+  264   1        PP[0][0] = PP[0][0] - K_0 * PP[0][0];
+  265   1        PP[0][1] = PP[0][1] - K_0 * PP[0][1];
+  266   1        PP[1][0] = PP[1][0] - K_1 * PP[0][0];
+  267   1        PP[1][1] = PP[1][1] - K_1 * PP[0][1];
+  268   1      }
+  269          
+  270          void Kalman_Cal_Yaw(float acc, float gyro) //ø®∂˚¬¸¬À≤®roll÷·º∆À„
+  271          {
+  272   1        static float Q_bias;                      // Q_bias:Õ”¬›“«µƒ∆´≤Ó  Angle_err:Ω«∂»∆´¡ø
+  273   1        static float K_0, K_1;                    //ø®∂˚¬¸‘ˆ“Ê  K_0:”√”⁄º∆À„◊Ó”≈π¿º∆÷µ  K_1:”√”⁄º∆À„◊Ó”≈π¿º∆÷µµ
+             -ƒ∆´≤Ó t_0/1:÷–º‰±‰¡ø
+  274   1        static float PP[2][2] = {{1, 0}, {0, 1}}; //π˝≥Ã–≠∑Ω≤Óæÿ’ÛP£¨≥ı º÷µŒ™µ•Œª’Û
+  275   1        yaw_kalman += (gyro - Q_bias) * dt;       //◊¥Ã¨∑Ω≥Ã,Ω«∂»÷µµ»”⁄…œ¥Œ◊Ó”≈Ω«∂»º”Ω«ÀŸ∂»ºı¡„∆Ø∫Ûª˝∑÷
+  276   1        PP[0][0] = PP[0][0] + Q_angle - (PP[0][1] + PP[1][0]) * dt;
+  277   1        PP[0][1] = PP[0][1] - PP[1][1] * dt;
+  278   1        PP[1][0] = PP[1][0] - PP[1][1] * dt;
+  279   1        PP[1][1] = PP[1][1] + Q_gyro;
+  280   1        K_0 = PP[0][0] / (PP[0][0] + R_angle);
+  281   1        K_1 = PP[1][0] / (PP[0][0] + R_angle);
+  282   1        yaw_kalman = yaw_kalman + K_0 * (acc - yaw_kalman);
+  283   1        Q_bias = Q_bias + K_1 * (acc - yaw_kalman);
+  284   1        PP[0][0] = PP[0][0] - K_0 * PP[0][0];
+  285   1        PP[0][1] = PP[0][1] - K_0 * PP[0][1];
+  286   1        PP[1][0] = PP[1][0] - K_1 * PP[0][0];
+  287   1        PP[1][1] = PP[1][1] - K_1 * PP[0][1];
+  288   1      }
+
+
+Module Information          Static   Overlayable
+------------------------------------------------
+  code size            =      3469     ------
+  ecode size           =    ------     ------
+  data size            =    ------     ------
+  idata size           =    ------     ------
+  pdata size           =    ------     ------
+  xdata size           =       236     ------
+  xdata-const size     =    ------     ------
+  edata size           =    ------     ------
+  bit size             =    ------     ------
+  ebit size            =    ------     ------
+  bitaddressable size  =    ------     ------
+  ebitaddressable size =    ------     ------
+  far data size        =    ------     ------
+  huge data size       =    ------     ------
+  const size           =    ------     ------
+  hconst size          =       135     ------
+End of Module Information.
+
+
+C251 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
