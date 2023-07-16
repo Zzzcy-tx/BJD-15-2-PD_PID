@@ -1,11 +1,11 @@
-C251 COMPILER V5.60.0,  ringjudge                                                          11/07/23  17:03:02  PAGE 1   
+C251 COMPILER V5.60.0,  ringjudge                                                          16/07/23  14:13:11  PAGE 1   
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE ringjudge
 OBJECT MODULE PLACED IN .\Out_File\ringjudge.obj
-COMPILER INVOKED BY: D:\software\keil\C251\BIN\C251.EXE ..\CODE\ringjudge.c LARGE INTR2 WARNINGLEVEL(3) OPTIMIZE(0,SPEED
-                    -) BROWSE INCDIR(..\..\Libraries\libraries;..\..\Libraries\seekfree_libraries;..\..\Libraries\seekfree_peripheral;..\CODE
-                    -;..\USER\inc;..\USER\src) DEBUG PRINT(.\Out_File\ringjudge.lst) TABS(2) OBJECT(.\Out_File\ringjudge.obj) 
+COMPILER INVOKED BY: D:\Program files\Keil251\C251\BIN\C251.EXE ..\CODE\ringjudge.c LARGE INTR2 WARNINGLEVEL(3) OPTIMIZE
+                    -(0,SPEED) BROWSE INCDIR(..\..\Libraries\libraries;..\..\Libraries\seekfree_libraries;..\..\Libraries\seekfree_peripheral
+                    -;..\CODE;..\USER\inc;..\USER\src) DEBUG PRINT(.\Out_File\ringjudge.lst) TABS(2) OBJECT(.\Out_File\ringjudge.obj) 
 
 stmt  level    source
 
@@ -66,7 +66,7 @@ stmt  level    source
    55   1        else
    56   1        {
    57   2          P77 = 0;
-C251 COMPILER V5.60.0,  ringjudge                                                          11/07/23  17:03:02  PAGE 2   
+C251 COMPILER V5.60.0,  ringjudge                                                          16/07/23  14:13:11  PAGE 2   
 
    58   2        }
    59   1      
@@ -134,7 +134,7 @@ stmt  level    source
   120   4              //  pwm_duty(PWMB_CH1_P74,640); //强行向右打角（左电机加速）
   121   4            }
   122   3          }
-C251 COMPILER V5.60.0,  ringjudge                                                          11/07/23  17:03:02  PAGE 3   
+C251 COMPILER V5.60.0,  ringjudge                                                          16/07/23  14:13:11  PAGE 3   
 
   123   2          else if (distance1 >= dis2 && annulus_flag != 0) //拐进去后正常循迹
   124   2          {
@@ -202,7 +202,7 @@ stmt  level    source
   185   1        else
   186   1        {
   187   2          gyro_x_count = 0;
-C251 COMPILER V5.60.0,  ringjudge                                                          11/07/23  17:03:02  PAGE 4   
+C251 COMPILER V5.60.0,  ringjudge                                                          16/07/23  14:13:11  PAGE 4   
 
   188   2        }
   189   1        if (gyro_x_count >= 3)
@@ -270,7 +270,7 @@ stmt  level    source
   251   3            else
   252   3            {
   253   4              straight_flag = 1;
-C251 COMPILER V5.60.0,  ringjudge                                                          11/07/23  17:03:02  PAGE 5   
+C251 COMPILER V5.60.0,  ringjudge                                                          16/07/23  14:13:11  PAGE 5   
 
   254   4              distance_integral_flag1 = 0;
   255   4              distance1 = 0;

@@ -1,12 +1,12 @@
-C251 COMPILER V5.60.0,  SEEKFREE_IPS200_SPI                                                11/07/23  15:18:18  PAGE 1   
+C251 COMPILER V5.60.0,  SEEKFREE_IPS200_SPI                                                16/07/23  14:13:09  PAGE 1   
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE SEEKFREE_IPS200_SPI
 OBJECT MODULE PLACED IN .\Out_File\SEEKFREE_IPS200_SPI.obj
-COMPILER INVOKED BY: D:\software\keil\C251\BIN\C251.EXE ..\..\Libraries\seekfree_peripheral\SEEKFREE_IPS200_SPI.c LARGE 
-                    -INTR2 WARNINGLEVEL(3) OPTIMIZE(0,SPEED) BROWSE INCDIR(..\..\Libraries\libraries;..\..\Libraries\seekfree_libraries;..\..
-                    -\Libraries\seekfree_peripheral;..\CODE;..\USER\inc;..\USER\src) DEBUG PRINT(.\Out_File\SEEKFREE_IPS200_SPI.lst) TABS(2) 
-                    -OBJECT(.\Out_File\SEEKFREE_IPS200_SPI.obj) 
+COMPILER INVOKED BY: D:\Program files\Keil251\C251\BIN\C251.EXE ..\..\Libraries\seekfree_peripheral\SEEKFREE_IPS200_SPI.
+                    -c LARGE INTR2 WARNINGLEVEL(3) OPTIMIZE(0,SPEED) BROWSE INCDIR(..\..\Libraries\libraries;..\..\Libraries\seekfree_librari
+                    -es;..\..\Libraries\seekfree_peripheral;..\CODE;..\USER\inc;..\USER\src) DEBUG PRINT(.\Out_File\SEEKFREE_IPS200_SPI.lst) 
+                    -TABS(2) OBJECT(.\Out_File\SEEKFREE_IPS200_SPI.obj) 
 
 stmt  level    source
 
@@ -66,7 +66,7 @@ stmt  level    source
    50          
    51          
    52          
-C251 COMPILER V5.60.0,  SEEKFREE_IPS200_SPI                                                11/07/23  15:18:18  PAGE 2   
+C251 COMPILER V5.60.0,  SEEKFREE_IPS200_SPI                                                16/07/23  14:13:09  PAGE 2   
 
    53          //-------------------------------------------------------------------------------------------------------
              -------------
@@ -134,7 +134,7 @@ stmt  level    source
   111          //  @since      v1.0
   112          //  Sample usage:               
   113          //-------------------------------------------------------------------------------------------------------
-C251 COMPILER V5.60.0,  SEEKFREE_IPS200_SPI                                                11/07/23  15:18:18  PAGE 3   
+C251 COMPILER V5.60.0,  SEEKFREE_IPS200_SPI                                                16/07/23  14:13:09  PAGE 3   
 
              -------------
   114          void ips200_writeDatai_16bit_simspi(uint16 dat) //向液晶屏写一个16位数据
@@ -202,7 +202,7 @@ stmt  level    source
   174   1      
   175   1          ips200_writeIndex_simspi(0xBB);
   176   1          ips200_writeData_simspi(0x29);
-C251 COMPILER V5.60.0,  SEEKFREE_IPS200_SPI                                                11/07/23  15:18:18  PAGE 4   
+C251 COMPILER V5.60.0,  SEEKFREE_IPS200_SPI                                                16/07/23  14:13:09  PAGE 4   
 
   177   1      
   178   1      //    ips200_writeIndex_simspi(0xC0);
@@ -270,7 +270,7 @@ stmt  level    source
   240          void ips200_set_region_simspi(uint16 x1,uint16 y1,uint16 x2,uint16 y2)
   241          {
   242   1        #if(IPS200_DISPLAY_DIR==0)
-C251 COMPILER V5.60.0,  SEEKFREE_IPS200_SPI                                                11/07/23  15:18:18  PAGE 5   
+C251 COMPILER V5.60.0,  SEEKFREE_IPS200_SPI                                                16/07/23  14:13:09  PAGE 5   
 
   243   1        {
   244   2          ips200_writeIndex_simspi(0x2a);//列地址设置
@@ -338,7 +338,7 @@ stmt  level    source
   304          
   305          //-------------------------------------------------------------------------------------------------------
              -------------
-C251 COMPILER V5.60.0,  SEEKFREE_IPS200_SPI                                                11/07/23  15:18:18  PAGE 6   
+C251 COMPILER V5.60.0,  SEEKFREE_IPS200_SPI                                                16/07/23  14:13:09  PAGE 6   
 
   306          //  @brief      液晶画点
   307          //  @param      x               坐标x方向的起点
@@ -406,7 +406,7 @@ stmt  level    source
   364   1        
   365   1        j = 0;
   366   1        while(dat[j] != '\0')
-C251 COMPILER V5.60.0,  SEEKFREE_IPS200_SPI                                                11/07/23  15:18:18  PAGE 7   
+C251 COMPILER V5.60.0,  SEEKFREE_IPS200_SPI                                                16/07/23  14:13:09  PAGE 7   
 
   367   1        {
   368   2          ips200_showchar_simspi(x+8*j,y*16,dat[j]);
@@ -474,7 +474,7 @@ stmt  level    source
   426   2        }
   427   1        
   428   1      }
-C251 COMPILER V5.60.0,  SEEKFREE_IPS200_SPI                                                11/07/23  15:18:18  PAGE 8   
+C251 COMPILER V5.60.0,  SEEKFREE_IPS200_SPI                                                16/07/23  14:13:09  PAGE 8   
 
   429          
   430          //-------------------------------------------------------------------------------------------------------
@@ -542,7 +542,7 @@ stmt  level    source
   488   2          i++;
   489   2        }
   490   1      }
-C251 COMPILER V5.60.0,  SEEKFREE_IPS200_SPI                                                11/07/23  15:18:18  PAGE 9   
+C251 COMPILER V5.60.0,  SEEKFREE_IPS200_SPI                                                16/07/23  14:13:09  PAGE 9   
 
   491          
   492          //-------------------------------------------------------------------------------------------------------
@@ -610,7 +610,7 @@ stmt  level    source
   550   1        if(6<pointnum)  pointnum = 6;
   551   1          if(10<num)      num = 10;
   552   1              
-C251 COMPILER V5.60.0,  SEEKFREE_IPS200_SPI                                                11/07/23  15:18:18  PAGE 10  
+C251 COMPILER V5.60.0,  SEEKFREE_IPS200_SPI                                                16/07/23  14:13:09  PAGE 10  
 
   553   1          if(0>dat)   length = zf_sprintf( &buff[0],"%f",dat);//负数
   554   1          else
@@ -678,7 +678,7 @@ stmt  level    source
   610          void ips200_writeData(uint8 dat)      //写数据
   611          {
   612   1        IPS200_CS(0);
-C251 COMPILER V5.60.0,  SEEKFREE_IPS200_SPI                                                11/07/23  15:18:18  PAGE 11  
+C251 COMPILER V5.60.0,  SEEKFREE_IPS200_SPI                                                16/07/23  14:13:09  PAGE 11  
 
   613   1          IPS200_DC(1);
   614   1      
@@ -746,7 +746,7 @@ stmt  level    source
   671   1          ips200_writeData(0x05);
   672   1      
   673   1          ips200_writeIndex(0xB2);
-C251 COMPILER V5.60.0,  SEEKFREE_IPS200_SPI                                                11/07/23  15:18:18  PAGE 12  
+C251 COMPILER V5.60.0,  SEEKFREE_IPS200_SPI                                                16/07/23  14:13:09  PAGE 12  
 
   674   1          ips200_writeData(0x0C);
   675   1          ips200_writeData(0x0C);
@@ -814,7 +814,7 @@ stmt  level    source
   737   1          ips200_writeData(0x31);
   738   1          ips200_writeData(0x34);
   739   1      
-C251 COMPILER V5.60.0,  SEEKFREE_IPS200_SPI                                                11/07/23  15:18:18  PAGE 13  
+C251 COMPILER V5.60.0,  SEEKFREE_IPS200_SPI                                                16/07/23  14:13:09  PAGE 13  
 
   740   1          ips200_writeIndex(0x21); 
   741   1      
@@ -882,7 +882,7 @@ stmt  level    source
   801          {
   802   1          uint16 i,j;
   803   1        ips200_set_region(0,0,IPS200_X_MAX-1,IPS200_Y_MAX-1);
-C251 COMPILER V5.60.0,  SEEKFREE_IPS200_SPI                                                11/07/23  15:18:18  PAGE 14  
+C251 COMPILER V5.60.0,  SEEKFREE_IPS200_SPI                                                16/07/23  14:13:09  PAGE 14  
 
   804   1          for(i=0;i<IPS200_X_MAX;i++)
   805   1          {
@@ -950,7 +950,7 @@ stmt  level    source
   861   1        uint8 temp;
   862   1          
   863   1        for(i=0; i<16; i++)
-C251 COMPILER V5.60.0,  SEEKFREE_IPS200_SPI                                                11/07/23  15:18:18  PAGE 15  
+C251 COMPILER V5.60.0,  SEEKFREE_IPS200_SPI                                                16/07/23  14:13:09  PAGE 15  
 
   864   1        {
   865   2          ips200_set_region(x,y+i,x+7,y+i);
@@ -1018,7 +1018,7 @@ stmt  level    source
   923   1        i = 0;
   924   1        while(i<3)
   925   1        {
-C251 COMPILER V5.60.0,  SEEKFREE_IPS200_SPI                                                11/07/23  15:18:18  PAGE 16  
+C251 COMPILER V5.60.0,  SEEKFREE_IPS200_SPI                                                16/07/23  14:13:09  PAGE 16  
 
   926   2          ips200_showchar((uint16)(x+(8*(i+1))), (uint16)(y*16),(int8)('0' + a[i]));
   927   2          i++;
@@ -1086,7 +1086,7 @@ stmt  level    source
   985   1        {
   986   2          ips200_showchar((uint16)(x+(8*(i+1))), (uint16)(y*16),(int8)('0' + a[i]));
   987   2          i++;
-C251 COMPILER V5.60.0,  SEEKFREE_IPS200_SPI                                                11/07/23  15:18:18  PAGE 17  
+C251 COMPILER V5.60.0,  SEEKFREE_IPS200_SPI                                                16/07/23  14:13:09  PAGE 17  
 
   988   2        }
   989   1      }
@@ -1154,7 +1154,7 @@ stmt  level    source
  1047   2              buff[length] = ' ';
  1048   2              length++;
  1049   2          }
-C251 COMPILER V5.60.0,  SEEKFREE_IPS200_SPI                                                11/07/23  15:18:18  PAGE 18  
+C251 COMPILER V5.60.0,  SEEKFREE_IPS200_SPI                                                16/07/23  14:13:09  PAGE 18  
 
  1050   1          buff[num] = '\0';
  1051   1      
@@ -1223,7 +1223,7 @@ Module Information          Static   Overlayable
   xdata size           =       363     ------
   xdata-const size     =    ------     ------
   edata size           =    ------     ------
-C251 COMPILER V5.60.0,  SEEKFREE_IPS200_SPI                                                11/07/23  15:18:18  PAGE 19  
+C251 COMPILER V5.60.0,  SEEKFREE_IPS200_SPI                                                16/07/23  14:13:09  PAGE 19  
 
   bit size             =    ------     ------
   ebit size            =    ------     ------

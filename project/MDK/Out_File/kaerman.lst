@@ -1,11 +1,11 @@
-C251 COMPILER V5.60.0,  kaerman                                                            11/07/23  11:24:26  PAGE 1   
+C251 COMPILER V5.60.0,  kaerman                                                            16/07/23  14:13:10  PAGE 1   
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE kaerman
 OBJECT MODULE PLACED IN .\Out_File\kaerman.obj
-COMPILER INVOKED BY: D:\software\keil\C251\BIN\C251.EXE ..\CODE\kaerman.c LARGE INTR2 WARNINGLEVEL(3) OPTIMIZE(0,SPEED) 
-                    -BROWSE INCDIR(..\..\Libraries\libraries;..\..\Libraries\seekfree_libraries;..\..\Libraries\seekfree_peripheral;..\CODE;.
-                    -.\USER\inc;..\USER\src) DEBUG PRINT(.\Out_File\kaerman.lst) TABS(2) OBJECT(.\Out_File\kaerman.obj) 
+COMPILER INVOKED BY: D:\Program files\Keil251\C251\BIN\C251.EXE ..\CODE\kaerman.c LARGE INTR2 WARNINGLEVEL(3) OPTIMIZE(0
+                    -,SPEED) BROWSE INCDIR(..\..\Libraries\libraries;..\..\Libraries\seekfree_libraries;..\..\Libraries\seekfree_peripheral;.
+                    -.\CODE;..\USER\inc;..\USER\src) DEBUG PRINT(.\Out_File\kaerman.lst) TABS(2) OBJECT(.\Out_File\kaerman.obj) 
 
 stmt  level    source
 
@@ -66,7 +66,7 @@ stmt  level    source
    55          {
    56   1        imu963ra_get_acc();
    57   1        imu963ra_get_gyro();
-C251 COMPILER V5.60.0,  kaerman                                                            11/07/23  11:24:26  PAGE 2   
+C251 COMPILER V5.60.0,  kaerman                                                            16/07/23  14:13:10  PAGE 2   
 
    58   1        // 1.»ñÈ¡¼ÓËÙ¶ÈºÍ½Ç¶ÈÊý¾Ý
    59   1        accel_x = imu963ra_acc_x;
@@ -134,7 +134,7 @@ stmt  level    source
   120          
   121          //¿¨¶ûÂü²ÎÊý
   122          static float Q_angle = 0.0003; //½Ç¶ÈÊý¾ÝÖÃÐÅ¶È£¬½Ç¶ÈÔëÉùµÄÐ­·½²î
-C251 COMPILER V5.60.0,  kaerman                                                            11/07/23  11:24:26  PAGE 3   
+C251 COMPILER V5.60.0,  kaerman                                                            16/07/23  14:13:10  PAGE 3   
 
   123          static float Q_gyro = 0.0009;  //½ÇËÙ¶ÈÊý¾ÝÖÃÐÅ¶È£¬½ÇËÙ¶ÈÔëÉùµÄÐ­·½²î
   124          static float R_angle = 0.8;    //¼ÓËÙ¶È¼Æ²âÁ¿ÔëÉùµÄÐ­·½²î
@@ -202,7 +202,7 @@ stmt  level    source
   185   1          ¿ÉÓÉ¾­Ñé»ò¼ÆËãµÃ³ö
   186   1      
   187   1          ÁîD( angle )  = Q_angle
-C251 COMPILER V5.60.0,  kaerman                                                            11/07/23  11:24:26  PAGE 4   
+C251 COMPILER V5.60.0,  kaerman                                                            16/07/23  14:13:10  PAGE 4   
 
   188   1            D( Q_bias ) = Q_gyro
   189   1      
@@ -270,7 +270,7 @@ stmt  level    source
   251          {
   252   1        static float Q_bias;                      // Q_bias:ÍÓÂÝÒÇµÄÆ«²î  Angle_err:½Ç¶ÈÆ«Á¿
   253   1        static float K_0, K_1;                    //¿¨¶ûÂüÔöÒæ  K_0:ÓÃÓÚ¼ÆËã×îÓÅ¹À¼ÆÖµ  K_1:ÓÃÓÚ¼ÆËã×îÓÅ¹À¼ÆÖµµ
-C251 COMPILER V5.60.0,  kaerman                                                            11/07/23  11:24:26  PAGE 5   
+C251 COMPILER V5.60.0,  kaerman                                                            16/07/23  14:13:10  PAGE 5   
 
              -ÄÆ«²î t_0/1:ÖÐ¼ä±äÁ¿
   254   1        static float PP[2][2] = {{1, 0}, {0, 1}}; //¹ý³ÌÐ­·½²î¾ØÕóP£¬³õÊ¼ÖµÎªµ¥Î»Õó

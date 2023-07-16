@@ -1,11 +1,11 @@
-C251 COMPILER V5.60.0,  pid                                                                11/07/23  11:24:27  PAGE 1   
+C251 COMPILER V5.60.0,  pid                                                                16/07/23  14:13:11  PAGE 1   
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE pid
 OBJECT MODULE PLACED IN .\Out_File\pid.obj
-COMPILER INVOKED BY: D:\software\keil\C251\BIN\C251.EXE ..\CODE\pid.c LARGE INTR2 WARNINGLEVEL(3) OPTIMIZE(0,SPEED) BROW
-                    -SE INCDIR(..\..\Libraries\libraries;..\..\Libraries\seekfree_libraries;..\..\Libraries\seekfree_peripheral;..\CODE;..\US
-                    -ER\inc;..\USER\src) DEBUG PRINT(.\Out_File\pid.lst) TABS(2) OBJECT(.\Out_File\pid.obj) 
+COMPILER INVOKED BY: D:\Program files\Keil251\C251\BIN\C251.EXE ..\CODE\pid.c LARGE INTR2 WARNINGLEVEL(3) OPTIMIZE(0,SPE
+                    -ED) BROWSE INCDIR(..\..\Libraries\libraries;..\..\Libraries\seekfree_libraries;..\..\Libraries\seekfree_peripheral;..\CO
+                    -DE;..\USER\inc;..\USER\src) DEBUG PRINT(.\Out_File\pid.lst) TABS(2) OBJECT(.\Out_File\pid.obj) 
 
 stmt  level    source
 
@@ -66,7 +66,7 @@ stmt  level    source
    53   1          vPID->lasterror = thisError;
    54   1      }
    55          
-C251 COMPILER V5.60.0,  pid                                                                11/07/23  11:24:27  PAGE 2   
+C251 COMPILER V5.60.0,  pid                                                                16/07/23  14:13:11  PAGE 2   
 
    56          //陀螺仪pid消抖
    57          void PIDRegulation2(PID *vPID, float processValue)
@@ -134,7 +134,7 @@ stmt  level    source
   118   1          pidS.proportiongain = p;
   119   1          pidS.integralgain = i;
   120   1          pidS.derivativegain = d;
-C251 COMPILER V5.60.0,  pid                                                                11/07/23  11:24:27  PAGE 3   
+C251 COMPILER V5.60.0,  pid                                                                16/07/23  14:13:11  PAGE 3   
 
   121   1      }
   122          //设置方向环参数(加陀螺仪)

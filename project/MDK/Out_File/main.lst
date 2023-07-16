@@ -1,11 +1,11 @@
-C251 COMPILER V5.60.0,  main                                                               11/07/23  16:21:03  PAGE 1   
+C251 COMPILER V5.60.0,  main                                                               16/07/23  14:13:09  PAGE 1   
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE main
 OBJECT MODULE PLACED IN .\Out_File\main.obj
-COMPILER INVOKED BY: D:\software\keil\C251\BIN\C251.EXE ..\USER\src\main.c LARGE INTR2 WARNINGLEVEL(3) OPTIMIZE(0,SPEED)
-                    - BROWSE INCDIR(..\..\Libraries\libraries;..\..\Libraries\seekfree_libraries;..\..\Libraries\seekfree_peripheral;..\CODE;
-                    -..\USER\inc;..\USER\src) DEBUG PRINT(.\Out_File\main.lst) TABS(2) OBJECT(.\Out_File\main.obj) 
+COMPILER INVOKED BY: D:\Program files\Keil251\C251\BIN\C251.EXE ..\USER\src\main.c LARGE INTR2 WARNINGLEVEL(3) OPTIMIZE(
+                    -0,SPEED) BROWSE INCDIR(..\..\Libraries\libraries;..\..\Libraries\seekfree_libraries;..\..\Libraries\seekfree_peripheral;
+                    -..\CODE;..\USER\inc;..\USER\src) DEBUG PRINT(.\Out_File\main.lst) TABS(2) OBJECT(.\Out_File\main.obj) 
 
 stmt  level    source
 
@@ -66,7 +66,7 @@ stmt  level    source
    52   1        exit_init(INT0_P32, FALLING_EDGE);
    53   1        setPidLR(20, 8, 0, 16000);
    54   1        setSpeedLR(110);
-C251 COMPILER V5.60.0,  main                                                               11/07/23  16:21:03  PAGE 2   
+C251 COMPILER V5.60.0,  main                                                               16/07/23  14:13:09  PAGE 2   
 
    55   1        setPidS(8, 0, 1);
    56   1      
@@ -134,7 +134,7 @@ stmt  level    source
   111   2          //     printf("%f,%f,%f,%f,%f,%f,%f\n", angle, pidW.result / 90, pidL.setpoint, pidR.setpoint, pidL.r
              -esult, pidR.result, k, aimed_angle);
   112   2          //   printf("%d\n", dl1a_distance_mm);
-C251 COMPILER V5.60.0,  main                                                               11/07/23  16:21:03  PAGE 3   
+C251 COMPILER V5.60.0,  main                                                               16/07/23  14:13:09  PAGE 3   
 
   113   2          //   printf("%f,%f\n",k,pidS.result);
   114   2          //  printf("%d,%d,%d,%d,%d,%f,%f,%f,%f,%f,%f,", adc_data[9] - adc_data[2], adc_data[9], adc_data[2], 

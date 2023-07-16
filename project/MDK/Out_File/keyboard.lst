@@ -1,11 +1,11 @@
-C251 COMPILER V5.60.0,  keyboard                                                           13/07/23  11:55:07  PAGE 1   
+C251 COMPILER V5.60.0,  keyboard                                                           16/07/23  14:13:12  PAGE 1   
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE keyboard
 OBJECT MODULE PLACED IN .\Out_File\keyboard.obj
-COMPILER INVOKED BY: D:\software\keil\C251\BIN\C251.EXE ..\CODE\keyboard.c LARGE INTR2 WARNINGLEVEL(3) OPTIMIZE(0,SPEED)
-                    - BROWSE INCDIR(..\..\Libraries\libraries;..\..\Libraries\seekfree_libraries;..\..\Libraries\seekfree_peripheral;..\CODE;
-                    -..\USER\inc;..\USER\src) DEBUG PRINT(.\Out_File\keyboard.lst) TABS(2) OBJECT(.\Out_File\keyboard.obj) 
+COMPILER INVOKED BY: D:\Program files\Keil251\C251\BIN\C251.EXE ..\CODE\keyboard.c LARGE INTR2 WARNINGLEVEL(3) OPTIMIZE(
+                    -0,SPEED) BROWSE INCDIR(..\..\Libraries\libraries;..\..\Libraries\seekfree_libraries;..\..\Libraries\seekfree_peripheral;
+                    -..\CODE;..\USER\inc;..\USER\src) DEBUG PRINT(.\Out_File\keyboard.lst) TABS(2) OBJECT(.\Out_File\keyboard.obj) 
 
 stmt  level    source
 
@@ -66,7 +66,7 @@ stmt  level    source
    52   3                  KeystrokeLabel = 4;
    53   3              }
    54   2              else if (KeyFIVE == 0)
-C251 COMPILER V5.60.0,  keyboard                                                           13/07/23  11:55:07  PAGE 2   
+C251 COMPILER V5.60.0,  keyboard                                                           16/07/23  14:13:12  PAGE 2   
 
    55   2              {
    56   3                  KeystrokeLabel = 5;
@@ -134,7 +134,7 @@ stmt  level    source
   114          
   115          {
   116   1          ips200_Dispaly(BLACK);
-C251 COMPILER V5.60.0,  keyboard                                                           13/07/23  11:55:07  PAGE 3   
+C251 COMPILER V5.60.0,  keyboard                                                           16/07/23  14:13:12  PAGE 3   
 
   117   1          ips200_showstr(0, display % 10, "*");
   118   1          ips200_showstr(8, 0, " data________1"); // 1
@@ -202,7 +202,7 @@ stmt  level    source
   179          //  @param
   180          //  @param
   181          //  @return     void
-C251 COMPILER V5.60.0,  keyboard                                                           13/07/23  11:55:07  PAGE 4   
+C251 COMPILER V5.60.0,  keyboard                                                           16/07/23  14:13:12  PAGE 4   
 
   182          //  @note       此页面为编号为0
   183          //-------------------------------------------------------------------------------------------------------
@@ -270,7 +270,7 @@ stmt  level    source
   244   2              else
   245   2              {
   246   3              }
-C251 COMPILER V5.60.0,  keyboard                                                           13/07/23  11:55:07  PAGE 5   
+C251 COMPILER V5.60.0,  keyboard                                                           16/07/23  14:13:12  PAGE 5   
 
   247   2              break;
   248   2          case KeystrokeFOUR:
@@ -338,7 +338,7 @@ stmt  level    source
   308   2              extern_iap_write_float(P_S_MAX, 3, 2, 0x00);
   309   2              break;
   310   2          case 2:
-C251 COMPILER V5.60.0,  keyboard                                                           13/07/23  11:55:07  PAGE 6   
+C251 COMPILER V5.60.0,  keyboard                                                           16/07/23  14:13:12  PAGE 6   
 
   311   2              D_S_z += speed3 * 0.6;
   312   2              extern_iap_write_float(D_S_z, 3, 2, 0x10);
@@ -406,7 +406,7 @@ stmt  level    source
   372          void Keystroke_Menu_TWO(void) // 2
   373          {
   374   1          ips200_Dispaly(BLACK);
-C251 COMPILER V5.60.0,  keyboard                                                           13/07/23  11:55:07  PAGE 7   
+C251 COMPILER V5.60.0,  keyboard                                                           16/07/23  14:13:12  PAGE 7   
 
   375   1          ips200_showstr(0, display % 10, "*");
   376   1      
@@ -474,7 +474,7 @@ stmt  level    source
   438          //-------------------------------------------------------------------------------------------------------
              -------------
   439          //  @brief      菜单三
-C251 COMPILER V5.60.0,  keyboard                                                           13/07/23  11:55:07  PAGE 8   
+C251 COMPILER V5.60.0,  keyboard                                                           16/07/23  14:13:12  PAGE 8   
 
   440          //  @param
   441          //  @param
@@ -542,7 +542,7 @@ stmt  level    source
   502   2          }
   503   1      
   504   1          ips200_showstr(8, 12, " Gui_flag");
-C251 COMPILER V5.60.0,  keyboard                                                           13/07/23  11:55:07  PAGE 9   
+C251 COMPILER V5.60.0,  keyboard                                                           16/07/23  14:13:12  PAGE 9   
 
   505   1          ips200_showuint16(120, 12, Gui_flag);
   506   1      
@@ -610,7 +610,7 @@ stmt  level    source
   566   1          {
   567   2          case 1:
   568   2              PO_or_OBSTACLE[0] += speed3 * 1;
-C251 COMPILER V5.60.0,  keyboard                                                           13/07/23  11:55:07  PAGE 10  
+C251 COMPILER V5.60.0,  keyboard                                                           16/07/23  14:13:12  PAGE 10  
 
   569   2              break;
   570   2          case 2:
@@ -678,7 +678,7 @@ stmt  level    source
   632   3                  ring_set_k[1] = fabs(k);
   633   3                  extern_iap_write_float(ring_set_k[1], 3, 2, 0x150);
   634   3              }
-C251 COMPILER V5.60.0,  keyboard                                                           13/07/23  11:55:07  PAGE 11  
+C251 COMPILER V5.60.0,  keyboard                                                           16/07/23  14:13:12  PAGE 11  
 
   635   2              if (display == 10)
   636   2              {
@@ -747,7 +747,7 @@ Module Information          Static   Overlayable
   code size            =      5865     ------
   ecode size           =    ------     ------
   data size            =    ------     ------
-C251 COMPILER V5.60.0,  keyboard                                                           13/07/23  11:55:07  PAGE 12  
+C251 COMPILER V5.60.0,  keyboard                                                           16/07/23  14:13:12  PAGE 12  
 
   idata size           =    ------     ------
   pdata size           =    ------     ------

@@ -1,11 +1,11 @@
-C251 COMPILER V5.60.0,  other                                                              11/07/23  16:21:03  PAGE 1   
+C251 COMPILER V5.60.0,  other                                                              16/07/23  14:13:11  PAGE 1   
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE other
 OBJECT MODULE PLACED IN .\Out_File\other.obj
-COMPILER INVOKED BY: D:\software\keil\C251\BIN\C251.EXE ..\CODE\other.c LARGE INTR2 WARNINGLEVEL(3) OPTIMIZE(0,SPEED) BR
-                    -OWSE INCDIR(..\..\Libraries\libraries;..\..\Libraries\seekfree_libraries;..\..\Libraries\seekfree_peripheral;..\CODE;..\
-                    -USER\inc;..\USER\src) DEBUG PRINT(.\Out_File\other.lst) TABS(2) OBJECT(.\Out_File\other.obj) 
+COMPILER INVOKED BY: D:\Program files\Keil251\C251\BIN\C251.EXE ..\CODE\other.c LARGE INTR2 WARNINGLEVEL(3) OPTIMIZE(0,S
+                    -PEED) BROWSE INCDIR(..\..\Libraries\libraries;..\..\Libraries\seekfree_libraries;..\..\Libraries\seekfree_peripheral;..\
+                    -CODE;..\USER\inc;..\USER\src) DEBUG PRINT(.\Out_File\other.lst) TABS(2) OBJECT(.\Out_File\other.obj) 
 
 stmt  level    source
 
@@ -66,7 +66,7 @@ stmt  level    source
    55          
    56          //无线调参的参数在这里设置，加一个switch即可加一个调参参数(浮点数用%f,整数用%.0f)
    57          void any_change(int16 id, char cp[])
-C251 COMPILER V5.60.0,  other                                                              11/07/23  16:21:03  PAGE 2   
+C251 COMPILER V5.60.0,  other                                                              16/07/23  14:13:11  PAGE 2   
 
    58          {
    59   1        switch (id)
@@ -134,7 +134,7 @@ stmt  level    source
   121   2          break;
   122   2        case 20:
   123   2          sp_set_max = atoi(cp);
-C251 COMPILER V5.60.0,  other                                                              11/07/23  16:21:03  PAGE 3   
+C251 COMPILER V5.60.0,  other                                                              16/07/23  14:13:11  PAGE 3   
 
   124   2          break;
   125   2        case 21:
@@ -202,7 +202,7 @@ stmt  level    source
   187          void my_iap_init()
   188          {
   189   1        P_S_MAX = iap_read_float(8, 0x00);
-C251 COMPILER V5.60.0,  other                                                              11/07/23  16:21:03  PAGE 4   
+C251 COMPILER V5.60.0,  other                                                              16/07/23  14:13:11  PAGE 4   
 
   190   1        D_S_z = iap_read_float(8, 0x10);
   191   1        D_S = iap_read_float(8, 0x20);

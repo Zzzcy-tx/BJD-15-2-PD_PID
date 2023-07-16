@@ -1,11 +1,11 @@
-C251 COMPILER V5.60.0,  data                                                               11/07/23  18:29:16  PAGE 1   
+C251 COMPILER V5.60.0,  data                                                               16/07/23  14:13:10  PAGE 1   
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE data
 OBJECT MODULE PLACED IN .\Out_File\data.obj
-COMPILER INVOKED BY: D:\software\keil\C251\BIN\C251.EXE ..\CODE\data.c LARGE INTR2 WARNINGLEVEL(3) OPTIMIZE(0,SPEED) BRO
-                    -WSE INCDIR(..\..\Libraries\libraries;..\..\Libraries\seekfree_libraries;..\..\Libraries\seekfree_peripheral;..\CODE;..\U
-                    -SER\inc;..\USER\src) DEBUG PRINT(.\Out_File\data.lst) TABS(2) OBJECT(.\Out_File\data.obj) 
+COMPILER INVOKED BY: D:\Program files\Keil251\C251\BIN\C251.EXE ..\CODE\data.c LARGE INTR2 WARNINGLEVEL(3) OPTIMIZE(0,SP
+                    -EED) BROWSE INCDIR(..\..\Libraries\libraries;..\..\Libraries\seekfree_libraries;..\..\Libraries\seekfree_peripheral;..\C
+                    -ODE;..\USER\inc;..\USER\src) DEBUG PRINT(.\Out_File\data.lst) TABS(2) OBJECT(.\Out_File\data.obj) 
 
 stmt  level    source
 
@@ -66,7 +66,7 @@ stmt  level    source
    55          int16 dis2 = 10000;
    56          int16 ring_angle = 1600;
    57          
-C251 COMPILER V5.60.0,  data                                                               11/07/23  18:29:16  PAGE 2   
+C251 COMPILER V5.60.0,  data                                                               16/07/23  14:13:10  PAGE 2   
 
    58          int16 wSet;
    59          float gyro;

@@ -1,11 +1,11 @@
-C251 COMPILER V5.60.0,  filter                                                             11/07/23  11:30:07  PAGE 1   
+C251 COMPILER V5.60.0,  filter                                                             16/07/23  14:13:10  PAGE 1   
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE filter
 OBJECT MODULE PLACED IN .\Out_File\filter.obj
-COMPILER INVOKED BY: D:\software\keil\C251\BIN\C251.EXE ..\CODE\filter.c LARGE INTR2 WARNINGLEVEL(3) OPTIMIZE(0,SPEED) B
-                    -ROWSE INCDIR(..\..\Libraries\libraries;..\..\Libraries\seekfree_libraries;..\..\Libraries\seekfree_peripheral;..\CODE;..
-                    -\USER\inc;..\USER\src) DEBUG PRINT(.\Out_File\filter.lst) TABS(2) OBJECT(.\Out_File\filter.obj) 
+COMPILER INVOKED BY: D:\Program files\Keil251\C251\BIN\C251.EXE ..\CODE\filter.c LARGE INTR2 WARNINGLEVEL(3) OPTIMIZE(0,
+                    -SPEED) BROWSE INCDIR(..\..\Libraries\libraries;..\..\Libraries\seekfree_libraries;..\..\Libraries\seekfree_peripheral;..
+                    -\CODE;..\USER\inc;..\USER\src) DEBUG PRINT(.\Out_File\filter.lst) TABS(2) OBJECT(.\Out_File\filter.obj) 
 
 stmt  level    source
 
@@ -66,7 +66,7 @@ stmt  level    source
    55   1            }
    56   1          }
    57   1          //取中间的值获取
-C251 COMPILER V5.60.0,  filter                                                             11/07/23  11:30:07  PAGE 2   
+C251 COMPILER V5.60.0,  filter                                                             16/07/23  14:13:10  PAGE 2   
 
    58   1          for (i = 0; i < 10; i++)
    59   1          {
@@ -134,7 +134,7 @@ stmt  level    source
   121   3            adc_sum[1] /= 10;
   122   3            adc_sum[3] /= 10;
   123   3            time_count1++;
-C251 COMPILER V5.60.0,  filter                                                             11/07/23  11:30:07  PAGE 3   
+C251 COMPILER V5.60.0,  filter                                                             16/07/23  14:13:10  PAGE 3   
 
   124   3          }
   125   2        }
@@ -202,7 +202,7 @@ stmt  level    source
   187   1        return y0;
   188   1      }
   189          float MovingAverageFilter1(float x1)
-C251 COMPILER V5.60.0,  filter                                                             11/07/23  11:30:07  PAGE 4   
+C251 COMPILER V5.60.0,  filter                                                             16/07/23  14:13:10  PAGE 4   
 
   190          {
   191   1        static int8 MAF_index1 = -1;
@@ -270,7 +270,7 @@ stmt  level    source
   253   1        static int8 MAF_index3 = -1;
   254   1        static float buffer3[MAF_LENGTH];
   255   1        static float yk_3 = 0;
-C251 COMPILER V5.60.0,  filter                                                             11/07/23  11:30:07  PAGE 5   
+C251 COMPILER V5.60.0,  filter                                                             16/07/23  14:13:10  PAGE 5   
 
   256   1        float y3 = 0;
   257   1        uint8 i = 0;
@@ -338,7 +338,7 @@ stmt  level    source
   319   1        uint8 i = 0;
   320   1        if (MAF_index5 == -1)
   321   1        {
-C251 COMPILER V5.60.0,  filter                                                             11/07/23  11:30:07  PAGE 6   
+C251 COMPILER V5.60.0,  filter                                                             16/07/23  14:13:10  PAGE 6   
 
   322   2          for (i = 0; i < MAF_LENGTH; i++)
   323   2          {
@@ -406,7 +406,7 @@ stmt  level    source
   385   2          {
   386   3            buffer7[i] = x7;
   387   3          }
-C251 COMPILER V5.60.0,  filter                                                             11/07/23  11:30:07  PAGE 7   
+C251 COMPILER V5.60.0,  filter                                                             16/07/23  14:13:10  PAGE 7   
 
   388   2          yk_7 = x7;
   389   2          MAF_index7 = 0;
@@ -474,7 +474,7 @@ stmt  level    source
   451   2        }
   452   1        else
   453   1        {
-C251 COMPILER V5.60.0,  filter                                                             11/07/23  11:30:07  PAGE 8   
+C251 COMPILER V5.60.0,  filter                                                             16/07/23  14:13:10  PAGE 8   
 
   454   2          y9 = yk_9 + (x9 - buffer9[MAF_index9]) / MAF_LENGTH;
   455   2          buffer9[MAF_index9] = x9;
@@ -542,7 +542,7 @@ stmt  level    source
   517   2          {
   518   3            MAF_index_0 = 0;
   519   3          }
-C251 COMPILER V5.60.0,  filter                                                             11/07/23  11:30:07  PAGE 9   
+C251 COMPILER V5.60.0,  filter                                                             16/07/23  14:13:10  PAGE 9   
 
   520   2          yk__0 = y_0;
   521   2        }
@@ -610,7 +610,7 @@ stmt  level    source
   583   1      }
   584          
   585          float MovingAverageFilter_3(float x_3)
-C251 COMPILER V5.60.0,  filter                                                             11/07/23  11:30:07  PAGE 10  
+C251 COMPILER V5.60.0,  filter                                                             16/07/23  14:13:10  PAGE 10  
 
   586          {
   587   1        static int8 MAF_index_3 = -1;
@@ -678,7 +678,7 @@ stmt  level    source
   649   1        static float buffer_5[MAF_LENGTH];
   650   1        static float yk__5 = 0;
   651   1        float y_5 = 0;
-C251 COMPILER V5.60.0,  filter                                                             11/07/23  11:30:07  PAGE 11  
+C251 COMPILER V5.60.0,  filter                                                             16/07/23  14:13:10  PAGE 11  
 
   652   1        uint8 i = 0;
   653   1        if (MAF_index_5 == -1)
@@ -746,7 +746,7 @@ stmt  level    source
   715   2          for (i = 0; i < MAF_LENGTH; i++)
   716   2          {
   717   3            buffer_7[i] = x_7;
-C251 COMPILER V5.60.0,  filter                                                             11/07/23  11:30:07  PAGE 12  
+C251 COMPILER V5.60.0,  filter                                                             16/07/23  14:13:10  PAGE 12  
 
   718   3          }
   719   2          yk__7 = x_7;
@@ -814,7 +814,7 @@ stmt  level    source
   781   2          y_9 = yk__9;
   782   2        }
   783   1        else
-C251 COMPILER V5.60.0,  filter                                                             11/07/23  11:30:07  PAGE 13  
+C251 COMPILER V5.60.0,  filter                                                             16/07/23  14:13:10  PAGE 13  
 
   784   1        {
   785   2          y_9 = yk__9 + (x_9 - buffer_9[MAF_index_9]) / MAF_LENGTH;
